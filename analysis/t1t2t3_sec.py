@@ -35,7 +35,7 @@ rng=np.random.default_rng(SEED);sample=sorted(rng.choice(eligible,min(100,len(el
 print("UNIV",len(univ),"ELIGIBLE",len(eligible),"SAMPLE",len(sample),sample,flush=True)
 
 def getjson(url):
- req=urllib.request.Request(url,headers={"User-Agent":UA,"Accept-Encoding":"gzip, deflate"})
+ req=urllib.request.Request(url,headers={"User-Agent":UA,"Accept-Encoding":"identity"})
  with urllib.request.urlopen(req,timeout=30) as r:return json.load(r)
 tickmap=getjson("https://www.sec.gov/files/company_tickers.json")
 cikmap={v["ticker"].upper():str(v["cik_str"]).zfill(10) for v in tickmap.values()}
