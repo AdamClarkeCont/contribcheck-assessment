@@ -1,0 +1,33 @@
+name: T1 T2 T3 Backtest
+
+on:
+  push:
+    paths:
+      - 'analysis/t1t2t3_backtest.py'
+      - '.github/workflows/t1t2t3_backtest.yml'
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pandas numpy pyarrow yfinance tabulate
+      - name: Run optimisation
+        run: python analysis/t1t2t3_backtest.py
+      - name: Show summary
+        run: cat summary.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: t1t2t3-results
+          path: |
+            summary.json
+            summary.md
+            optimization_results.csv
+            winner_trades.csv
+            benchmark_trades.csv
